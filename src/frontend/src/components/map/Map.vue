@@ -34,6 +34,7 @@
 
 <script>
   import MapCard from "./MapCard";
+  import {eventBus} from "../../main";
 
   export default {
     name: `dmap`,
@@ -141,7 +142,7 @@
             if ((response && response.statusCode) === 200) {
               app.$emit(`closeMap`);
             } else {
-              window.confirm(body);
+              eventBus.$emit(`raiseNotice`, body);
             }
           });
       }

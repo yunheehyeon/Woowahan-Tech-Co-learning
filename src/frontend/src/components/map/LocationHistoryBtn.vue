@@ -90,15 +90,18 @@
       </v-card>
     </v-dialog>
 
+    <SnackBar/>
   </div>
 </template>
 
 <script>
   import Map from "./Map";
+  import {eventBus} from "../../main";
+  import SnackBar from "../templates/SnackBar";
 
   export default {
     name: `LocationHistoryBtn`,
-    components: {Map},
+    components: {SnackBar, Map},
     data() {
       return {
         places: null,
@@ -142,9 +145,9 @@
           `${window.location.origin}/api/locations/${id}`,
           (error, response) => {
             if (response.statusCode === 200) {
-              window.confirm("삭제 성공");
+              eventBus.$emit(`raiseNotice`, "삭제 성공");
             } else {
-              window.confirm("삭제 실패");
+              eventBus.$emit(`raiseNotice`, "삭제 실패");
             }
           });
       }
