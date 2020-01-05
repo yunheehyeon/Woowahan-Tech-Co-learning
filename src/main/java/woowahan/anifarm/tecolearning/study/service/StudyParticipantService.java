@@ -69,10 +69,14 @@ public class StudyParticipantService {
     public void withdrawStudy(long studyId, UserInfoDto userInfoDto) {
         long userId = userInfoDto.getId();
 
-        studyParticipantRepository.findByStudyIdAndParticipantId(studyId, userId)
-                .orElseThrow(StudyParticipantNotFoundException::new)
+        findByStudyIdAndUserId(studyId, userId)
                 .checkPresenter(userId);
 
         studyParticipantRepository.deleteByStudyIdAndParticipantId(studyId, userId);
+    }
+
+    public StudyParticipant findByStudyIdAndUserId(long studyId, long userId) {
+        return studyParticipantRepository.findByStudyIdAndParticipantId(studyId, userId)
+                .orElseThrow(StudyParticipantNotFoundException::new);
     }
 }

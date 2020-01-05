@@ -2,9 +2,11 @@ package woowahan.anifarm.tecolearning.location.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import woowahan.anifarm.tecolearning.auth.advice.LoggedInUser;
 import woowahan.anifarm.tecolearning.location.service.StudyLocationService;
 import woowahan.anifarm.tecolearning.location.service.dto.LocationDto;
 import woowahan.anifarm.tecolearning.location.service.dto.StudyLocationDto;
+import woowahan.anifarm.tecolearning.user.dto.UserInfoDto;
 
 import java.util.List;
 
@@ -23,8 +25,10 @@ public class StudyLocationController {
     }
 
     @PostMapping("/studies/{studyId}/locations")
-    public ResponseEntity<LocationDto> save(@PathVariable long studyId, @RequestBody LocationDto locationDto) {
-        return ResponseEntity.ok(studyLocationService.save(studyId, locationDto));
+    public ResponseEntity<LocationDto> save(@PathVariable long studyId,
+                                            @RequestBody LocationDto locationDto,
+                                            @LoggedInUser UserInfoDto userInfoDto) {
+        return ResponseEntity.ok(studyLocationService.save(studyId, locationDto, userInfoDto));
     }
 
     @DeleteMapping("/locations/{studyLocationId}")

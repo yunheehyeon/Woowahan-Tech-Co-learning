@@ -82,12 +82,15 @@ public class AbstractWebTestClient {
         login.put(EMAIL_KEY, LOGIN_EMAIL);
         login.put(PASSWORD_KEY, LOGIN_PASSWORD);
 
+        login(login);
+    }
+
+    private void login(Map<String, String> login) {
         String cookie = postJsonRequest("/api/oauth/login", login)
                 .getResponseHeaders()
                 .getFirst("Set-Cookie");
 
         token = cookie.split(";")[0].split("=")[1];
-
     }
 
     @AfterEach

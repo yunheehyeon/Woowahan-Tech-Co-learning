@@ -6,7 +6,9 @@ import woowahan.anifarm.tecolearning.location.domain.studylocation.StudyLocation
 import woowahan.anifarm.tecolearning.location.domain.studylocation.StudyLocationRepository;
 import woowahan.anifarm.tecolearning.location.service.dto.LocationDto;
 import woowahan.anifarm.tecolearning.location.service.dto.StudyLocationDto;
-import woowahan.anifarm.tecolearning.study.service.StudyService;
+import woowahan.anifarm.tecolearning.study.domain.StudyParticipant;
+import woowahan.anifarm.tecolearning.study.service.StudyParticipantService;
+import woowahan.anifarm.tecolearning.user.dto.UserInfoDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,19 +16,21 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class StudyLocationService {
-    private final StudyService studyService;
+    private final StudyParticipantService studyParticipantService;
     private final LocationService locationService;
     private final StudyLocationRepository studyLocationRepository;
 
-    public StudyLocationService(StudyService studyService, LocationService locationService, StudyLocationRepository studyLocationRepository) {
-        this.studyService = studyService;
+    public StudyLocationService(StudyParticipantService studyParticipantService, LocationService locationService, StudyLocationRepository studyLocationRepository) {
+        this.studyParticipantService = studyParticipantService;
         this.locationService = locationService;
         this.studyLocationRepository = studyLocationRepository;
     }
 
-    public LocationDto save(long studyId, LocationDto locationDto) {
+    public LocationDto save(long studyId, LocationDto locationDto, UserInfoDto userInfoDto) {
+        StudyParticipant studyParticipant = studyParticipantService.findByStudyIdAndUserId(studyId, userInfoDto.getId());
+
         StudyLocation studyLocation = StudyLocation.builder()
-                .study(studyService.findById(studyId))
+                .study(studyParticipant.getStudy())
                 .location(locationService.getOrCreate(locationDto))
                 .build();
 
