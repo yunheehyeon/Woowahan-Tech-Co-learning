@@ -54,8 +54,8 @@ class StudyLocationControllerTest extends AbstractWebTestClient {
     }
 
     @Test
-    @DisplayName("스터디 장소 삭제")
-    void deleteStudyLocation() {
+    @DisplayName("참가자이면 스터디 장소 삭제 성공")
+    void deleteStudyLocation_ok() {
         delete(API_LOCATIONS + "/1")
                 .expectStatus()
                 .isOk()
@@ -64,6 +64,14 @@ class StudyLocationControllerTest extends AbstractWebTestClient {
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint())
                 ));
+    }
+
+    @Test
+    @DisplayName("참가자가 아니면 스터디 장소 삭제 실패")
+    void deleteStudyLocation_fail() {
+        delete(API_LOCATIONS + "/2")
+                .expectStatus()
+                .isBadRequest();
     }
 
     @Test

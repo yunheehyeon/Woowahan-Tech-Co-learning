@@ -14,4 +14,10 @@
             study_id="1"
             location_id="7947003"
     />
+
+    <study_location
+            study_location_id="2"
+            study_id="2"
+            location_id="7947003"
+    />
 </dataset>

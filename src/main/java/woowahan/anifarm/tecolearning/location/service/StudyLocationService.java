@@ -6,6 +6,7 @@ import woowahan.anifarm.tecolearning.location.domain.studylocation.StudyLocation
 import woowahan.anifarm.tecolearning.location.domain.studylocation.StudyLocationRepository;
 import woowahan.anifarm.tecolearning.location.service.dto.LocationDto;
 import woowahan.anifarm.tecolearning.location.service.dto.StudyLocationDto;
+import woowahan.anifarm.tecolearning.location.service.exception.NotFoundStudyLocationException;
 import woowahan.anifarm.tecolearning.study.domain.StudyParticipant;
 import woowahan.anifarm.tecolearning.study.service.StudyParticipantService;
 import woowahan.anifarm.tecolearning.user.dto.UserInfoDto;
@@ -38,7 +39,11 @@ public class StudyLocationService {
                 .getLocation());
     }
 
-    public void delete(long studyLocationId) {
+    public void delete(long studyLocationId, UserInfoDto userInfoDto) {
+        StudyLocation studyLocation = studyLocationRepository.findById(studyLocationId)
+                .orElseThrow(NotFoundStudyLocationException::new);
+        studyParticipantService.findByStudyIdAndUserId(studyLocation.getStudy().getId(), userInfoDto.getId());
+
         studyLocationRepository.deleteById(studyLocationId);
     }
 

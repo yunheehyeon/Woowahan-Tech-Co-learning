@@ -32,8 +32,9 @@ public class StudyLocationController {
     }
 
     @DeleteMapping("/locations/{studyLocationId}")
-    public ResponseEntity delete(@PathVariable long studyLocationId) {
-        studyLocationService.delete(studyLocationId);
+    public ResponseEntity delete(@PathVariable long studyLocationId,
+                                 @LoggedInUser UserInfoDto userInfoDto) {
+        studyLocationService.delete(studyLocationId, userInfoDto);
 
         return ResponseEntity.ok().build();
     }
