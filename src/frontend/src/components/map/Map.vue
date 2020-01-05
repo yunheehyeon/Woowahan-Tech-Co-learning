@@ -140,6 +140,7 @@
           },
           (error, response, body) => {
             if ((response && response.statusCode) === 200) {
+              eventBus.$emit(`raiseNotice`, `성공`);
               app.$emit(`closeMap`);
             } else {
               eventBus.$emit(`raiseNotice`, body);
